@@ -17,3 +17,5 @@ Set your own API key in the env variable:
 `sudo make install`
 
 `mer -c or --commit`
+
+![mer in action](https://github.com/Gusbenz/mer/blob/master/mer.jpg)
