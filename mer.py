@@ -67,21 +67,12 @@ cli.add_argument('-c', '--commit',
                  action='store_true',
                  help='grab a random GitHub commit')
 
-cli.add_argument('-a', '--authenticate',
-                 action='store_true',
-                 help='authentication for GitHub')
-
 if __name__ == '__main__':
   args = cli.parse_args()
-  if args.authenticate:
-    try:
-      get_commit(token)
-    except:
-      raise
   if args.commit:
     try:
-      game.get_commit()
+      get_commit(token)
     except KeyError:
       print(get_user())
     except IndexError:
-      print(colored.red('Random IndexError'))
+      print(colored.red('Random IndexError: First Bug. Sry -- RC'))
