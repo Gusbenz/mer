@@ -8,12 +8,10 @@ Meaningless Experiment Realized
 
 import sys
 import os
-import subprocess
 import os.path
 import argparse
 import random
 import requests
-from clint.textui import colored
 
 # userName =
 base_url = 'https://api.github.com/'
