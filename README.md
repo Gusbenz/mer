@@ -2,7 +2,7 @@
 
 Meaningless Experiment Realized
 
-Grab a random commit from GitHub.
+Grab a random commit message from GitHub.
 
 #### Get started
 
