@@ -20,27 +20,59 @@ base_url = 'https://api.github.com/'
 token = os.environ.get('GITHUB_API_KEY')
 headers = {'Authorization': 'token %s' % token}
 
-### replace with class for session handling? http://stackoverflow.com/questions/17622439/how-to-use-github-api-token-in-python-for-requesting ##
+# replace with class for session handling?
+# http://stackoverflow.com/questions/17622439/how-to-use-github-api-token-in-python-for-requesting
+# ##
+class User(object):
+  def __init__(self, username, token):
+    self.username = username
+    self.token = token
 
-def get_auth():
-  a = requests.get(base_url + 'user',
-                     headers={'Authorization': 'token %s' % token})
-  auth = a.json()
-  if a.status_code == 200:
-    authorized = True
-    return authenticated
-  else:
-    authorized = False
-    return authenticated
+class GitHub(object):
+  def __init__(self, arg):
+    self.arg = arg
+    self.session = requests.Session()
+    req = self.session.get(base_url + 'user')
+    try:
+      self.session.headers['Authorization'] = 'token %s' % arg.token
+      print(colored.green('You are authenticated ✔︎'))
+    except AttributeError:
+      print(colored.red('You are not authenticated ✔︎'))
 
+  def get_user():
+    try:
+      magic_num = random.randint(1, 10987)
+      u = self.session.get(base_url + 'users?since=' +
+                       str(magic_num))
+      users = u.json()
+      user = users[0]['login']
+      return user
+    except KeyError:
+      error = users['message']
+      return colored.red('OH SHIT: %s' % error)
 
-def check_auth(authorized):
-  authorized = authorized()
-  if authorized is True:
-    print(colored.green('You are authenticated ✔︎'))
-  elif authorized is False:
-    print(colored.red('You are not authenticated ✘'))
+  def get_commit(self, user):
+    user = get_user()
 
+    # get the repo based on user
+    r = self.session.get(base_url + 'users/' +
+                     user + '/repos')
+    repos = r.json()
+    repo = repos[0]['name']
+
+    # get the commit based on repo
+    c = self.session.get(base_url + 'repos/' +
+                     user + '/' + repo + '/commits')
+    commits = c.json()
+    commit = commits[0]['sha']
+
+    # get the commit message based on the sha of commit
+    m = self.session.get(base_url + 'repos/' +
+                     user + '/' + repo + '/commits/' + str(commit))
+    messages = m.json()
+    message = messages['commit']['message']
+
+    print(message)
 
 def get_user():
   try:
@@ -93,14 +125,13 @@ if __name__ == '__main__':
   args = cli.parse_args()
   if args.authenticate:
     try:
-      get_auth()
-      check_auth(get_auth)
+      player = User('Gusbenz', token)
+      game = GitHub(player)
     except:
       raise
   if args.commit:
     try:
-      get_user()
-      get_commit(get_user)
+      game.get_commit()
     except KeyError:
       print(get_user())
     except IndexError:
