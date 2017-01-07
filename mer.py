@@ -18,35 +18,35 @@ from clint.textui import colored
 user_name = 'Gusbenz'
 base_url = 'https://api.github.com/'
 token = os.environ.get('GITHUB_API_KEY')
+headers = {'Authorization': 'token %s' % token}
 
+### replace with class for session handling? http://stackoverflow.com/questions/17622439/how-to-use-github-api-token-in-python-for-requesting ##
 
 def get_auth():
-  authenticated = False
   a = requests.get(base_url + 'user',
                      headers={'Authorization': 'token %s' % token})
   auth = a.json()
-  print(a.status_code)
   if a.status_code == 200:
-    authenticated = True
+    authorized = True
     return authenticated
   else:
-    authenticated = False
+    authorized = False
     return authenticated
 
 
-def check_auth(authenticated):
-  authenticated = authenticated()
-  if authenticated is True:
+def check_auth(authorized):
+  authorized = authorized()
+  if authorized is True:
     print(colored.green('You are authenticated ✔︎'))
-  elif authenticated is False:
-    print(colored.red('You are are authenticated ✘'))
+  elif authorized is False:
+    print(colored.red('You are not authenticated ✘'))
 
 
 def get_user():
   try:
     magic_num = random.randint(1, 10987)
     u = requests.get(base_url + 'users?since=' +
-                     str(magic_num), headers={user_name: token})
+                     str(magic_num), headers=headers)
     users = u.json()
     user = users[0]['login']
     return user
@@ -59,19 +59,19 @@ def get_commit(user):
   user = user()
   # get the repo based on user
   r = requests.get(base_url + 'users/' +
-                   user + '/repos', headers={user_name: token})
+                   user + '/repos', headers=headers)
   repos = r.json()
   repo = repos[0]['name']
 
   # get the commit based on repo
   c = requests.get(base_url + 'repos/' +
-                   user + '/' + repo + '/commits', headers={user_name: token})
+                   user + '/' + repo + '/commits', headers=headers)
   commits = c.json()
   commit = commits[0]['sha']
 
   # get the commit message based on the sha of commit
   m = requests.get(base_url + 'repos/' +
-                   user + '/' + repo + '/commits/' + str(commit), headers={user_name: token})
+                   user + '/' + repo + '/commits/' + str(commit), headers=headers)
   messages = m.json()
   message = messages['commit']['message']
 
@@ -103,5 +103,5 @@ if __name__ == '__main__':
       get_commit(get_user)
     except KeyError:
       print(get_user())
-  else:
-    print('Show me the money! \n Seriosuly...use the --commit flag.')
+    except IndexError:
+      print(colored.red('Random IndexError'))
