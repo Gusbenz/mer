@@ -1,6 +1,4 @@
-### [MER](https://www.youtube.com/watch?v=EoQW03UFqQw)
-
-Meaningless Experiment Realized
+### [mer](https://www.youtube.com/watch?v=EoQW03UFqQw)
 
 Grab a random commit message from GitHub.
 
