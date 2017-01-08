@@ -17,30 +17,31 @@ from requests.auth import AuthBase
 from clint.textui import colored
 
 base_url = 'https://api.github.com/'
-login = None
 token = os.environ.get('GITHUB_API_KEY')
 
-# replace with class for session handling?
-# http://stackoverflow.com/questions/17622439/how-to-use-github-api-token-in-python-for-requesting
-# ##
-class GitHub_Auth(AuthBase):
-  def __init__(self, username, token):
-    self.username = username
-    self.token = token
 
-  def __call__(self, r):
-    r.headers['Authorization'] = 'token %s' % self.token
-    return r
+class GitHub_Auth(AuthBase):
+
+    def __init__(self, username, token):
+        self.username = username
+        self.token = token
+
+    def __call__(self, r):
+        r.headers['Authorization'] = 'token %s' % self.token
+        return r
+
 
 def ask_for_login():
-  login = raw_input('Enter your GitHub login: ')
-  return login
+    global login
+    login = raw_input('Enter your GitHub login: ')
+    return login
+
 
 def get_commit(login, token):
 
     magic_num = random.randint(1, 10987)
     u = requests.get(base_url + 'users?since=' +
-                      str(magic_num), auth=GitHub_Auth(login, token))
+                     str(magic_num), auth=GitHub_Auth(login, token))
     users = u.json()
     user = users[0]['login']
 
@@ -63,7 +64,8 @@ def get_commit(login, token):
     commiter = messages['commit']['author']['name']
     message = messages['commit']['message']
 
-    print(colored.green('Here\'s a random commit from ' + colored.blue(commiter, bold=True) + '\n', bold=True) + colored.white(message, bold=True))
+    print(colored.green('Here\'s a random commit from ' + colored.blue(commiter + ':',
+                                                                       bold=True) + '\n', bold=True) + colored.white(message, bold=True))
 
 #--CLI--#
 
@@ -73,13 +75,18 @@ cli.add_argument('-c', '--commit',
                  action='store_true',
                  help='grab a random GitHub commit')
 
+cli.set_defaults(auth=False)
+
 if __name__ == '__main__':
-  args = cli.parse_args()
-  if args.commit:
-    try:
-      ask_for_login()
-      get_commit(login, token)
-    except KeyError:
-      raise
-    except IndexError:
-      print(colored.red('Random IndexError: First Bug. Sry -- RC'))
+    args = cli.parse_args()
+    if args.commit:
+        try:
+            ask_for_login()
+            if len(login) is not 0:
+                get_commit(login, token)
+            else:
+                print(colored.red('Log in, please!'))
+        except KeyError:
+            raise
+        except IndexError:
+            print(colored.red('Random IndexError: Bug -- Gus'))

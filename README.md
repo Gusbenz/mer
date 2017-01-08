@@ -12,7 +12,7 @@ token = os.environ.get('YOUR_GITHUB_API_KEY')
 
 mer will prompt you for your GitHub login.
 
-***Note*** For unauthenticated requests, the [rate limit](https://developer.github.com/v3/#rate-limiting) allows for up to 60 requests to be made per hour.
+***Note*** For unauthenticated requests the [rate limit](https://developer.github.com/v3/#rate-limiting) allows for up to 60 requests to be made per hour.
 
 
 
