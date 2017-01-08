@@ -22,4 +22,4 @@ mer will prompt you for your GitHub login.
 
 `mer -c or --commit`
 
-![mer in action](https://github.com/Gusbenz/mer/blob/master/mer.jpg)
+![mer in action](https://github.com/Gusbenz/mer/blob/master/merInAction.jpg)
