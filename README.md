@@ -31,3 +31,4 @@ mer will prompt you for your GitHub login.
 * Other bugs :smile:
 * Persist user auth so as to not prompt for user login every time :thumbsup:
 * Add more flags so this is more useful :grin:
+* DRY this shitz up!
