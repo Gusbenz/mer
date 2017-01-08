@@ -4,14 +4,17 @@ Grab a random commit message from GitHub.
 
 #### Get started
 
-Set your own user name and API key in the env variable:
+Set your own API key in the env variable:
 
 ```
-user_name = 'YourUserName'
 token = os.environ.get('YOUR_GITHUB_API_KEY')
 ```
 
-***Note*** For unauthenticated requests, which these would be, the [rate limit](https://developer.github.com/v3/#rate-limiting) allows for up to 60 requests to be made per hour.
+mer will prompt you for your GitHub login.
+
+***Note*** For unauthenticated requests, the [rate limit](https://developer.github.com/v3/#rate-limiting) allows for up to 60 requests to be made per hour.
+
+
 
 #### Install
 

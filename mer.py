@@ -60,9 +60,10 @@ def get_commit(login, token):
     m = requests.get(base_url + 'repos/' +
                      user + '/' + repo + '/commits/' + str(commit), auth=GitHub_Auth(login, token))
     messages = m.json()
+    commiter = messages['commit']['author']['name']
     message = messages['commit']['message']
 
-    print(colored.green('Here\'s a random commit for ya: \n', bold=True) + colored.white(message, bold=True))
+    print(colored.green('Here\'s a random commit from ' + colored.blue(commiter, bold=True) + '\n', bold=True) + colored.white(message, bold=True))
 
 #--CLI--#
 
