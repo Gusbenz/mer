@@ -62,7 +62,7 @@ def get_commit(login, token):
     messages = m.json()
     message = messages['commit']['message']
 
-    print(message)
+    print(colored.green('Here\'s a random commit for ya: \n', bold=True) + colored.white(message, bold=True))
 
 #--CLI--#
 
