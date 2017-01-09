@@ -89,4 +89,5 @@ if __name__ == '__main__':
         except KeyError:
             raise
         except IndexError:
-            print(colored.red('Random IndexError: Bug -- Gus'))
+            print(colored.red('IndexError. No repos or commits? Trying again...', bold=True))
+            get_commit(login, token)
