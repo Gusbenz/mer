@@ -76,9 +76,6 @@ def get_commit(login, token):
                                                                        bold=True) + '\n', bold=True) + colored.white(message, bold=True))
 
 
-def error():
-    print(colored.red('IndexError. No repos or commits? Trying again...', bold=True))
-    get_commit(login, token)
 #--CLI--#
 
 cli = argparse.ArgumentParser(description=__doc__)
