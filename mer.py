@@ -13,6 +13,7 @@ import os.path
 import argparse
 import random
 import requests
+
 from requests.auth import AuthBase
 from clint.textui import colored
 
@@ -79,7 +80,6 @@ cli.add_argument('-c', '--commit',
                  action='store_true',
                  help='grab a random GitHub commit')
 
-cli.set_defaults(auth=False)
 
 if __name__ == '__main__':
     args = cli.parse_args()
@@ -95,4 +95,7 @@ if __name__ == '__main__':
             get_commit(login, token)
         except IndexError:
             print(colored.red('IndexError. No repos or commits? Trying again...', bold=True))
+            get_commit(login, token)
+        except UnicodeEncodeError:
+            print(colored.red('UnicodeEncodeError. Trying again...', bold=True))
             get_commit(login, token)
