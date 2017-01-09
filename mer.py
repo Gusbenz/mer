@@ -67,6 +67,10 @@ def get_commit(login, token):
     print(colored.green('Here\'s a random commit from ' + colored.blue(commiter + ':',
                                                                        bold=True) + '\n', bold=True) + colored.white(message, bold=True))
 
+
+def error():
+    print(colored.red('IndexError. No repos or commits? Trying again...', bold=True))
+    get_commit(login, token)
 #--CLI--#
 
 cli = argparse.ArgumentParser(description=__doc__)
@@ -87,7 +91,8 @@ if __name__ == '__main__':
             else:
                 print(colored.red('Log in, please!'))
         except KeyError:
-            raise
+            print(colored.red('KeyError. No repos or commits? Trying again...', bold=True))
+            get_commit(login, token)
         except IndexError:
             print(colored.red('IndexError. No repos or commits? Trying again...', bold=True))
             get_commit(login, token)
