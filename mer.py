@@ -18,7 +18,7 @@ from requests.auth import AuthBase
 from clint.textui import colored
 
 base_url = 'https://api.github.com/'
-token = os.environ.get('GITHUB_API_KEY')
+token = os.environ.get('GITHUB_API_TOKEN')
 
 
 class GitHub_Auth(AuthBase):
@@ -31,6 +31,13 @@ class GitHub_Auth(AuthBase):
         r.headers['Authorization'] = 'token %s' % self.token
         return r
 
+
+def check_for_token():
+    if 'GITHUB_API_TOKEN' in os.environ:
+        print(colored.green('GITHUB_API_TOKEN is set!'))
+        return True
+    else:
+        return False
 
 def ask_for_login():
     global login
@@ -85,11 +92,14 @@ if __name__ == '__main__':
     args = cli.parse_args()
     if args.commit:
         try:
-            ask_for_login()
-            if len(login) is not 0:
-                get_commit(login, token)
+            if check_for_token() == True:
+                ask_for_login()
+                if len(login) is not 0:
+                    get_commit(login, token)
+                else:
+                    print(colored.red('Log in, please!'))
             else:
-                print(colored.red('Log in, please!'))
+                print(colored.red('GITHUB_API_TOKEN has not been set.'))
         except KeyError:
             print(colored.red('KeyError. No repos or commits? Trying again...', bold=True))
             get_commit(login, token)
