@@ -67,7 +67,10 @@ def get_commit(token):
     commiter = messages['commit']['author']['name']
     message = messages['commit']['message']
 
-    print(colored.green('Here\'s a random commit from ' + colored.blue(commiter + ':',
+    if "Initial commit" in message:
+        print(emoji.emojize(message + ' :confetti_ball:'))
+    else:
+        print(colored.green('Here\'s a random commit from ' + colored.yellow(commiter + ':',
                                                                        bold=True) + '\n', bold=True) + colored.white(message, bold=True))
 
 
@@ -96,7 +99,6 @@ if __name__ == '__main__':
             print(colored.red('IndexError. Trying again...', bold=True))
             print(emoji.emojize(':dizzy_face:'))
             get_commit(token)
-
         except UnicodeEncodeError:
             print(colored.red('UnicodeEncodeError. Trying again...', bold=True))
             print(emoji.emojize(':dizzy_face:'))
