@@ -13,6 +13,7 @@ import os.path
 import argparse
 import random
 import requests
+import emoji
 
 from requests.auth import AuthBase
 from clint.textui import colored
@@ -33,23 +34,10 @@ class GitHub_Auth(AuthBase):
 
 def check_for_token():
     if 'GITHUB_API_TOKEN' in os.environ:
-        print(colored.green('GITHUB_API_TOKEN is set!'))
+        print(emoji.emojize(':sparkles:'))
         return True
     else:
         return False
-#
-# def ask_for_login():
-#     global login
-#     login = raw_input('Enter your GitHub login: ')
-#     return login
-#
-# def check_for_login():
-#     try:
-#         login
-#     except NameError:
-#         print(colored.red('Log in, please!'))
-#     else:
-#         return True
 
 
 def get_commit(token):
@@ -101,13 +89,15 @@ if __name__ == '__main__':
             else:
                 print(colored.red('GITHUB_API_TOKEN has not been set.'))
         except KeyError:
-            print(colored.red(
-                'KeyError. No repos or commits? Trying again...', bold=True))
+            print(colored.red('KeyError. Trying again...', bold=True))
+            print(emoji.emojize(':dizzy_face:'))
             get_commit(token)
         except IndexError:
-            print(colored.red(
-                'IndexError. No repos or commits? Trying again...', bold=True))
+            print(colored.red('IndexError. Trying again...', bold=True))
+            print(emoji.emojize(':dizzy_face:'))
             get_commit(token)
+
         except UnicodeEncodeError:
             print(colored.red('UnicodeEncodeError. Trying again...', bold=True))
+            print(emoji.emojize(':dizzy_face:'))
             get_commit(token)
