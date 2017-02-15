@@ -31,7 +31,7 @@ class GitHub_Auth(AuthBase):
         r.headers['Authorization'] = 'token %s' % self.token
         return r
 
-
+# returns true or false if token present or not
 def check_for_token():
     if 'GITHUB_API_TOKEN' in os.environ:
         print(emoji.emojize(':sparkles:'))
@@ -39,7 +39,7 @@ def check_for_token():
     else:
         return False
 
-
+# uses token to grab commit
 def get_commit(token):
 
     magic_num = random.randint(1, 100987)
@@ -68,7 +68,7 @@ def get_commit(token):
     message = messages['commit']['message']
 
     if "Initial commit" in message:
-        print(emoji.emojize(message + ' :confetti_ball:'))
+        print(emoji.emojize(commiter + ' Made an ' + message + ' :confetti_ball:'))
     else:
         print(colored.green('Here\'s a random commit from ' + colored.yellow(commiter + ':',
                                                                        bold=True) + '\n', bold=True) + colored.white(message, bold=True))
